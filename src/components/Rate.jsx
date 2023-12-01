@@ -1,19 +1,24 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 import starLogo from "/public/images/icon-star.svg"
 
-// eslint-disable-next-line react/prop-types
-function Rate({ selected, length, showResult }) {
-    const [ rateActive, setRateActive ] = useState(null)
-    const rateBtns = [1, 2, 3, 4, 5]
 
-    length(rateBtns.length)
+function Rate({ onCountData, rateBtns, onResult }) {
+    // State to track the selected rate
+    const [ selectedRate, setSelectedRate ] = useState(null)
+
+    // Function to handle rate button click
     const handleRateButton = (button) => {
-        setRateActive(button === rateActive ? null : button)
-        selected(button)
+        // Toggle the selected rate
+        setSelectedRate(button === selectedRate ? null : button)
+        // Pass the selected rate to the parent component
+        onCountData(button)
     }
 
+    // Function to check if a rate is selected and inform the parent component
     const checkRateButton = () => {
-        rateActive !== null ? showResult(true) : showResult(false)
+        // Inform the parent component whether a rate is selected or not
+        selectedRate !== null ? onResult(true) : onResult(false)
     }
 
   return (
@@ -28,11 +33,17 @@ function Rate({ selected, length, showResult }) {
             </p>
         </div>
         <div className='rate-btn-container'>
+            {/* Map through rate buttons and render them */}
             {
                 rateBtns.map((button) => {
                     return (
-                        <button onClick={() => handleRateButton(button)} className={button === rateActive ? "active-rate-btn" : "rate-btn"} key={button}>
+                        <button 
+                         onClick={() => handleRateButton(button)}
+                         className={button === selectedRate ? "active-rate-btn" : "rate-btn"} 
+                         key={button}>
+
                             {button}
+
                         </button>
                     )
                 })
@@ -42,5 +53,12 @@ function Rate({ selected, length, showResult }) {
     </div>
   )
 }
+
+// PropTypes to ensure the correct type of props
+Rate.propTypes = {
+    onCountData: PropTypes.func.isRequired,
+    rateBtns: PropTypes.array.isRequired,
+    onResult: PropTypes.func.isRequired,
+};
 
 export default Rate

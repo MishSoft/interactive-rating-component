@@ -1,12 +1,12 @@
-import image from "/public/images/illustration-thank-you.svg"
+import PropTypes from 'prop-types'
+import thankYouImage  from "/public/images/illustration-thank-you.svg"
 
-// eslint-disable-next-line react/prop-types
-function Result({ count, resultLength }) {
+function Result({ onCount, onResultLength }) {
   return (
     <div className="result-container">
-        <img src = {image} />
+        <img src = {thankYouImage} />
         <div className="text-alert">
-            You selected {count} out {resultLength}
+            You selected {onCount} out {onResultLength}
         </div>
         <div className="result-footer">
             <h1>Thank you!</h1>
@@ -17,5 +17,11 @@ function Result({ count, resultLength }) {
     </div>
   )
 }
+
+// PropTypes to ensure the correct type of props
+Result.propTypes = {
+  onCount: PropTypes.func.isRequired,
+  onResultLength: PropTypes.array.isRequired,
+};
 
 export default Result
